@@ -1,42 +1,33 @@
-# Backend Testing
-This project is a backend testing exercise for the Sustainable Testing course. It is designed to provide hands-on experience in applying best practices for sustainable testing within a modern development environment.
+# Kata Backend Hexagonal
+## Diseño Sostenible - Ingeniería y Artesanía del Software con TypeScript
+![Diseño Sostenible](https://github.com/softwarecrafters-io/ts-eslint-prettier-jest/blob/master/coverds.png)
 
-## Requirements
-- Node.js
-- NVM
-## Getting Started
+Más información sobre el curso en [diseñosostenible.com](https://diseñosostenible.com).
 
-Before starting the project, you must switch to the correct Node version and install the necessary dependencies. Run the following commands in your terminal:
-
-```
-nvm use
-npm install
-```
-## Script Commands
+## Instrucciones
+* `nvm use`
+* `npm install`
+* `npm test`
 
 ### Start Backend
-To start the backend of the application in development mode, run:
 ```
 npm start
 ```
 
 ### Unit Tests
-To run the unit tests using Jest, run:
 ```
 npm run test:unit
 ```
 
 ### Integration Tests
-To run the integration tests using Jest, run:
 ```
 npm run test:integration
 ```
 
-### Run All Tests
-To run all tests (Integration and unit) in one operation, run:
+### All Tests
 ```
 npm test
 ```
 
-## Solution
-The solution to the backend testing exercise can be found in the `final` branch of this repository.
+## Solución
+La solución al ejercicio la tienes en la rama 'final'.
