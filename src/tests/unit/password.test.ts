@@ -9,42 +9,47 @@ class Password {
         return new Password(text);
     }
     private static validate(text: string) {
-        Password.validateLength(text);
-        Password.validateUpperCaseLetter(text);
-        Password.validateLowerCaseLetter(text);
-        Password.validateNumber(text);
-        Password.validateUnderscore(text);
+        const validationErrors: string[] = [];
+        Password.validateLength(text, validationErrors);
+        Password.validateUpperCaseLetter(text, validationErrors);
+        Password.validateLowerCaseLetter(text, validationErrors);
+        Password.validateNumber(text, validationErrors);
+        Password.validateUnderscore(text, validationErrors);
+        if(validationErrors.length > 0) {
+            throw new ValidationError(validationErrors.join(", "));
+        }
     }
+ 
 
-    static validateUnderscore(text: string) {
+    static validateUnderscore(text: string, validationErrors: string[]) {
         const underscoreExpr: RegExp = /^.*_.*$/;
         if (!underscoreExpr.test(text)) {
-            throw new ValidationError("password must have almost one underscore.");
+            validationErrors.push("password must have almost one underscore.");
         }
     }
-    static validateNumber(text: string) {
+    static validateNumber(text: string, validationErrors: string[]) {
         const numberExpr: RegExp = /^.*[0-9].*$/;
         if (!numberExpr.test(text)) {
-            throw new ValidationError("password must have almost one number.");
+            validationErrors.push("password must have almost one number.");
         }
     }
-    static validateLowerCaseLetter(text: string) {
+    static validateLowerCaseLetter(text: string, validationErrors: string[]) {
         const lowercaseExpr: RegExp = /^.*[a-z].*$/;
         if (!lowercaseExpr.test(text)) {
-            throw new ValidationError("password must have almost one lowercase letter.");
+            validationErrors.push("password must have almost one lowercase letter.");
         }
     }
    
-    private static validateUpperCaseLetter(text: string) {
+    private static validateUpperCaseLetter(text: string, validationErrors: string[]) {
         const uppercaseExpr: RegExp = /^.*[A-Z].*$/;
         if (!uppercaseExpr.test(text)) {
-            throw new ValidationError("password must have almost one uppercase letter.");
+            validationErrors.push("password must have almost one uppercase letter.");
         }
     }
 
-    private static validateLength(text: string) {
+    private static validateLength(text: string, validationErrors: string[]) {
         if (text.length <= 6) {
-            throw new ValidationError("password lenght less than permited.");
+            validationErrors.push("password lenght less than permited.");
         }
     }
 }
@@ -53,23 +58,25 @@ describe("The Password" , () => {
         expect(Password.createFromPlainText("SecurePass123_")).toBeInstanceOf(Password);
     })
     it('gets an error for an invalid length password',  () => {
-        const sourcePassword = "InSecu";
+        const sourcePassword = "Se23_";
         expect(() => Password.createFromPlainText(sourcePassword)).toThrow(new ValidationError("password lenght less than permited."));
     });
     it('gets an error for an invalid password with no uppercase letter',  () => {
-        const sourcePassword = "insecure";
+        const sourcePassword = "secu23_";
         expect(() => Password.createFromPlainText(sourcePassword)).toThrow(new ValidationError("password must have almost one uppercase letter."));
     });
     it('gets an error for an invalid password with no lowecaser letter',  () => {
-        const sourcePassword = "INSECURE";
+        const sourcePassword = "SECUREPASS123_";
         expect(() => Password.createFromPlainText(sourcePassword)).toThrow(new ValidationError("password must have almost one lowercase letter."));
     });
     it('gets an error for an invalid password with no numbers',  () => {
-        const sourcePassword = "INSeCURE";
+        const sourcePassword = "SecurePass_";
         expect(() => Password.createFromPlainText(sourcePassword)).toThrow(new ValidationError("password must have almost one number."));
     });
     it('gets an error for an invalid password with no underscore',  () => {
-        const sourcePassword = "INs3CURE";
+        const sourcePassword = "SecurePass123";
         expect(() => Password.createFromPlainText(sourcePassword)).toThrow(new ValidationError("password must have almost one underscore."));
     });
 })
+
+
