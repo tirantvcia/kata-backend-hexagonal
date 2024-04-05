@@ -3,7 +3,8 @@ import { hash } from "./common/hash";
 
 export class Password {
 
-    private constructor(readonly text: string) { }
+
+    private constructor(readonly value: string) { }
 
     static createFromPlainText(plainText: string): any {
         Password.validate(plainText);
@@ -15,10 +16,13 @@ export class Password {
     }
 
     toString(): string {
-        return this.text;
+        return this.value;
     }
 
-
+    isEqual(password: Password): any {
+        return this.value === password.value;
+    }
+    
     private static validate(text: string) {
         const validationErrors: string[] = [];
         Password.validateLength(text, validationErrors);
