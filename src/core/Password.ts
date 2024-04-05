@@ -1,13 +1,24 @@
 import { ValidationError } from "./ValidationError";
+import { hash } from "./common/hash";
 
 export class Password {
 
     private constructor(readonly text: string) { }
 
-    static createFromPlainText(text: string): any {
-        Password.validate(text);
-        return new Password(text);
+    static createFromPlainText(plainText: string): any {
+        Password.validate(plainText);
+        return new Password(Password.hashPlainText(plainText));
     }
+
+    private static hashPlainText(plainText: string) {
+        return hash(plainText);
+    }
+
+    toString(): string {
+        return this.text;
+    }
+
+
     private static validate(text: string) {
         const validationErrors: string[] = [];
         Password.validateLength(text, validationErrors);

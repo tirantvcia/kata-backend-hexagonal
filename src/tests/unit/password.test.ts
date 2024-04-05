@@ -29,6 +29,15 @@ describe("The Password" , () => {
         const sourcePassword = "SecurePass";
         expect(() => Password.createFromPlainText(sourcePassword)).toThrow(new ValidationError("password must have almost one number, password must have almost one underscore"));
     });
+    it('ensure that password is hashed',  () => {
+        const sourcePassword = "SecurePass1_";
+        const password:Password = Password.createFromPlainText(sourcePassword);
+
+        const hashedPassword = password.toString();
+        expect(hashedPassword).not.toEqual(sourcePassword);
+        expect(hashedPassword.length).toEqual(64);
+        expect(/^[a-f-F0-9]{64}$/.test(hashedPassword)).toBeTruthy();
+    });
 })
 
 
