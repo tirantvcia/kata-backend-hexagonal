@@ -38,6 +38,16 @@ describe("The Password" , () => {
         expect(hashedPassword.length).toEqual(64);
         expect(/^[a-f-F0-9]{64}$/.test(hashedPassword)).toBeTruthy();
     });
+
+    it('matches if two passwords are equals',  () => {
+        const sourcePassword = "SecurePass1_";
+        const password1:Password = Password.createFromPlainText(sourcePassword);
+        const password2:Password = Password.createFromPlainText(sourcePassword);
+
+
+        expect(password1.isEqual(password2)).toBeTruthy();
+    });
 })
+
 
 
