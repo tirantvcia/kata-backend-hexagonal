@@ -47,6 +47,14 @@ describe("The Password" , () => {
 
         expect(password1.isEqual(password2)).toBeTruthy();
     });
+    it('does not match if two passwords are different',  () => {
+        const sourcePassword1 = "SecurePass1_";
+        const sourcePassword2 = "SecurePass2_";
+        const password1:Password = Password.createFromPlainText(sourcePassword1);
+        const password2:Password = Password.createFromPlainText(sourcePassword2);
+
+        expect(password1.isEqual(password2)).toBeFalsy();
+    });
 })
 
 
