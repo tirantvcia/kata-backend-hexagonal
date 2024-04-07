@@ -6,6 +6,7 @@ export function generateUuuid(): string {
 }
 
 export class Id {
+
     private constructor(readonly uuid: string){}
     public static generate() {
         return new Id(generateUuuid());
@@ -24,6 +25,9 @@ export class Id {
     public toString() {
         return this.uuid;
     }
+    isEqual(id: Id): boolean {
+        return this.uuid === id.toString();
+    }
 }
 describe('The Id', () => {
     it('generate a valid identifier', () => {
@@ -40,6 +44,17 @@ describe('The Id', () => {
         const invalidId = 'inv-vali-id';
         expect(() => Id.createFrom(invalidId)).toThrow(new ValidationError("id must have a valid format"));
     })
+    it('identifies two identical ids as equals', () => {
+        const validId = generateUuuid();
+        const id1 = Id.createFrom(validId);
+        const id2 = Id.createFrom(validId);
+        expect(id1.isEqual(id2)).toBe(true);
+    })    
+    it('identifies two different ids as not equals', () => {
+        const id1 = Id.generate();
+        const id2 = Id.generate();
+        expect(id1.isEqual(id2)).toBe(false);
+    })   
 })
 
 
