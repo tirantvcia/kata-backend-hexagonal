@@ -1,5 +1,5 @@
-import { Email } from "../../core/Email";
-import { ValidationError } from "../../core/ValidationError";
+import { Email } from "../../../core/valuelObjects/Email";
+import { ValidationError } from "../../../core/valuelObjects/ValidationError";
 
 describe('The Email', () => {
     it('get an exception for an invalid email from string',  () => {

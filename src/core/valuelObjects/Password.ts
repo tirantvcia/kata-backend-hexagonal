@@ -1,12 +1,12 @@
 import { ValidationError } from "./ValidationError";
-import { hash } from "./common/hash";
+import { hash } from "../common/hash";
 
 export class Password {
 
 
     private constructor(readonly value: string) { }
 
-    static createFromPlainText(plainText: string): any {
+    static createFromPlainText(plainText: string): Password {
         Password.validate(plainText);
         return new Password(Password.hashPlainText(plainText));
     }

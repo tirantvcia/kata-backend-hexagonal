@@ -1,5 +1,5 @@
-import { ValidationError } from "../../core/ValidationError";
-import { Password } from "../../core/Password";
+import { ValidationError } from "../../../core/valuelObjects/ValidationError";
+import { Password } from "../../../core/valuelObjects/Password";
 
 describe("The Password" , () => {
     it('createFromPlainTexts a strong password with all requirements', () => {

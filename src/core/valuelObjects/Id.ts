@@ -1,5 +1,5 @@
 import { ValidationError } from './ValidationError';
-import { generateUuuid } from './common/generateUuuid';
+import { generateUuuid } from '../common/generateUuuid';
 
 
 export class Id {

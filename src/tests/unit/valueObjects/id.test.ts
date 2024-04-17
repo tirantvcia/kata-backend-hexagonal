@@ -1,6 +1,6 @@
-import { ValidationError } from '../../core/ValidationError';
-import { Id } from '../../core/Id';
-import { generateUuuid } from '../../core/common/generateUuuid';
+import { ValidationError } from '../../../core/valuelObjects/ValidationError';
+import { Id } from '../../../core/valuelObjects/Id';
+import { generateUuuid } from '../../../core/common/generateUuuid';
 
 describe('The Id', () => {
     it('generate a valid identifier', () => {
