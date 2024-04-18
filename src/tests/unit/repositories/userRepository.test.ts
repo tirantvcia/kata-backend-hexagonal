@@ -38,7 +38,7 @@ describe('Te in memory user repository', () => {
         const userFromBBDD = await userRepository.findByEmail(email);
         expect(userFromBBDD).toBe(undefined);
     })
-    it('finds all users by email', async () => {
+    it('finds all users', async () => {
         const email = Email.create('test@hexagonal.com');
         const user = createUserByEmail(email);
         const anotherEmail = Email.create('test1@hexagonal.com');
@@ -48,6 +48,13 @@ describe('Te in memory user repository', () => {
         const usersFromBBDD = await userRepository.findAll();
         expect(usersFromBBDD).toHaveLength(2);
         expect(usersFromBBDD).toEqual([user, anotherUser]);
+        
+    })
+
+    it('not finds when repo is empty', async () => {
+        const usersFromBBDD = await userRepository.findAll();
+        expect(usersFromBBDD).toHaveLength(0);
+        expect(usersFromBBDD).toEqual([]);
         
     })
 })
