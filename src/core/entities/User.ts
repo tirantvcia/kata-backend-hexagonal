@@ -5,17 +5,19 @@ import { ValidationError } from "../valuelObjects/ValidationError";
 
 
 export class User {
+    constructor(private readonly id: Id, private readonly email: Email, private password: Password) { };
+
+    isMatchingPassword(password: Password): boolean {
+        return this.password.isEqual(password);
+    }
+    isMatchingEmail(email: Email): unknown {
+        return this.email.equals(email);
+    }
     isMatchingId(id: Id): boolean {
         return this.id.isEqual(id);
     }
     isEquals(user: Promise<User>): boolean {
        return true;
-    }
-
-    constructor(private readonly id: Id, private readonly email: Email, private password: Password) { };
-
-    isMatchingPassword(password: Password): boolean {
-        return this.password.isEqual(password);
     }
 
     changePassword(newPassword: Password) {

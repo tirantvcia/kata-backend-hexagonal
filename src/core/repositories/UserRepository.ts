@@ -21,10 +21,10 @@ export class InMemoryRepository implements UserRepository {
         return this.users.find(user => user.isMatchingId(id));
     }
     async findByEmail(email: Email): Promise<User> {
-        throw new Error("Method not implemented.");
+        return this.users.find(user => user.isMatchingEmail(email));
     }
     async findAll(): Promise<User[]> {
-        throw new Error("Method not implemented.");
+        return this.users;
     }
     async remove(user: User): Promise<void> {
         throw new Error("Method not implemented.");
