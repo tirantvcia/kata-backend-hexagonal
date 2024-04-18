@@ -5,6 +5,12 @@ import { ValidationError } from "../valuelObjects/ValidationError";
 
 
 export class User {
+    isMatchingId(id: Id): boolean {
+        return this.id.isEqual(id);
+    }
+    isEquals(user: Promise<User>): boolean {
+       return true;
+    }
 
     constructor(private readonly id: Id, private readonly email: Email, private password: Password) { };
 
