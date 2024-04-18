@@ -14,8 +14,14 @@ export class InMemoryRepository implements UserRepository {
     private users: User[] = [];
 
     async save(user: User): Promise<void> {
-        this.users.push(user);
-        return Promise.resolve(); 
+        const index = this.users.findIndex(u => u.isEquals(user));
+        const notFound = -1;
+        
+        (index === notFound)?
+            this.users.push(user):
+            this.users[index] = user;
+        
+        
     }
     async findById(id: Id): Promise<User> {
         return this.users.find(user => user.isMatchingId(id));
@@ -27,7 +33,7 @@ export class InMemoryRepository implements UserRepository {
         return this.users;
     }
     async remove(user: User): Promise<void> {
-        throw new Error("Method not implemented.");
+       this.users = this.users.filter(userDB => !userDB.isEquals(user));
     }
     
 }

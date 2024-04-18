@@ -16,8 +16,8 @@ export class User {
     isMatchingId(id: Id): boolean {
         return this.id.isEqual(id);
     }
-    isEquals(user: Promise<User>): boolean {
-       return true;
+    isEquals(user: User): boolean {
+       return this.isMatchingId(user.id);
     }
 
     changePassword(newPassword: Password) {

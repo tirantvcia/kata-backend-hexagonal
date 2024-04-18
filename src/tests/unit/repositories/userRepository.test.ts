@@ -57,6 +57,33 @@ describe('Te in memory user repository', () => {
         expect(usersFromBBDD).toEqual([]);
         
     })
+
+    it('remove an user', async () => {
+        const email = Email.create('test@hexagonal.com');
+        const user = createUserByEmail(email);
+        const anotherEmail = Email.create('test1@hexagonal.com');
+        const anotherUser = createUserByEmail(anotherEmail);
+        userRepository.save(user);
+        userRepository.save(anotherUser);
+        const usersBeforeRemove = await userRepository.findAll();
+        expect(usersBeforeRemove).toHaveLength(2);
+        userRepository.remove(anotherUser);
+        const usersFromBBDD = await userRepository.findAll();
+        expect(usersFromBBDD).toHaveLength(1);
+        expect(usersFromBBDD).toEqual([user]);
+        
+    })
+    it('update user values from an existing user', async () => {
+        const email = Email.create('test@hexagonal.com');
+        const user = createUserByEmail(email);
+        const aUser = user;
+        userRepository.save(user);
+        userRepository.save(aUser);
+        const usersFromBBDD = await userRepository.findAll();
+        expect(usersFromBBDD).toHaveLength(1);
+        expect(usersFromBBDD).toEqual([user]);
+        
+    })
 })
 
 function createUserById(id: Id) {
