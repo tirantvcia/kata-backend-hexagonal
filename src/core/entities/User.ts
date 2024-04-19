@@ -5,6 +5,13 @@ import { ValidationError } from "../valuelObjects/ValidationError";
 
 
 export class User {
+    toDto(): { email: string; id: string; } | PromiseLike<{ email: string; id: string; }> {
+        return {
+                email: this.email.toString(),
+                id: this.id.toString()
+            };
+        
+    }
     constructor(private readonly id: Id, private readonly email: Email, private password: Password) { };
 
     isMatchingPassword(password: Password): boolean {
