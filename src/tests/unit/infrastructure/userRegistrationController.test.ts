@@ -8,23 +8,17 @@ import { HttpRequest, HttpResponse } from "../../../infrastructure/Http";
 import { UserRegistrationController } from "../../../infrastructure/UserRegistrationController";
 
 describe('The Controller', ()=>{
+    let userRegistrationController: UserRegistrationController;
+    beforeEach(()=>{
+        userRegistrationController  = createController();
+    }) 
     it('ensure that register email is valid', async () => {
-        const userRepository: InMemoryRepository = new InMemoryRepository();
-        const userRegistrationService = new UserRegistrationService(userRepository);
-        const userRegistrationController = new UserRegistrationController(userRegistrationService);
+       
 
         const email = 'test@test.com';
         const password = "TestPass01_";
-        const request: HttpRequest<UserRegistrationRequest> = {
-            body: {
-                email,
-                password
-            }
-        }
-        const response = {
-            status: jest.fn().mockReturnThis(),
-            json: jest.fn().mockReturnThis()
-        } as HttpResponse<UserRegistrationResponse>;
+        const request: HttpRequest<UserRegistrationRequest> = createStubRequest(email, password)
+        const response = createSpyResponse();
 
 
         
@@ -34,6 +28,29 @@ describe('The Controller', ()=>{
 
     })
 })
+
+function createController() {
+    const userRepository: InMemoryRepository = new InMemoryRepository();
+    const userRegistrationService = new UserRegistrationService(userRepository);
+    const userRegistrationController = new UserRegistrationController(userRegistrationService);
+    return userRegistrationController;
+}
+
+function createStubRequest(email: string, password: string): HttpRequest<UserRegistrationRequest> {
+    return {
+        body: {
+            email,
+            password
+        }
+    };
+}
+
+function createSpyResponse() {
+    return {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn().mockReturnThis()
+    } as HttpResponse<UserRegistrationResponse>;
+}
 
 function createRequestWithoutEmail(): UserRegistrationRequest {
     return {
