@@ -48,12 +48,16 @@ class UserRegistrationService {
 }
 
 describe('The User registration service',  () => {
+    let userRepository: InMemoryRepository;
+    let userRegistrationService:UserRegistrationService;
+    beforeEach(() => {
+        userRepository = new InMemoryRepository();
+        userRegistrationService = new UserRegistrationService(userRepository);
+    });
+
     it('register a new user successfully when given request is valid', async () => {
         const registrationRequest: UserRegistrationRequest = createRequest() 
-        const userRepository: InMemoryRepository = new InMemoryRepository();
-        const userRegistrationService = new UserRegistrationService(userRepository);
         await userRegistrationService.register(registrationRequest);
-
         const email = Email.create(registrationRequest.email);
         const userFromBBDD = await userRegistrationService.findUserByEmail(email);
         expect(userFromBBDD.isMatchingEmail(email)).toBeTruthy();
@@ -61,8 +65,6 @@ describe('The User registration service',  () => {
 
     it('cannot register a new user when email is used by another registered user', async () => {
         const registrationRequest: UserRegistrationRequest = createRequest() 
-        const userRepository: InMemoryRepository = new InMemoryRepository();
-        const userRegistrationService = new UserRegistrationService(userRepository);
         await userRegistrationService.register(registrationRequest);
         expect(userRegistrationService.register(registrationRequest)).rejects.toThrow(new ValidationError("email has been used"));
         
