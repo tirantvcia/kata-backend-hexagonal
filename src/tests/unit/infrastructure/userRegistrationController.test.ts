@@ -4,25 +4,8 @@ import { UserRegistrationRequest, UserRegistrationResponse } from "../../../appl
 import { InMemoryRepository } from "../../../core/repositories/UserRepository";
 import { Email } from "../../../core/valuelObjects/Email";
 import { ValidationError } from "../../../core/valuelObjects/ValidationError";
-
-interface HttpRequest<T>  {
-    body: T
-}
-
-interface HttpResponse<T>  {
-    status(code: number): this;
-    json(data: T | {message: string}): this;
-}
-
-class UserRegistrationController {
-
-    constructor(private userRegistrationService: UserRegistrationService) {}
-    async register(request: HttpRequest<UserRegistrationRequest>, response: HttpResponse<UserRegistrationResponse>) {
-        const registrationResponse : UserRegistrationResponse = await this.userRegistrationService.register(request.body);
-        response.status(201).json(registrationResponse);
-    }
-    
-}
+import { HttpRequest, HttpResponse } from "../../../infrastructure/Http";
+import { UserRegistrationController } from "../../../infrastructure/UserRegistrationController";
 
 describe('The Controller', ()=>{
     it('ensure that register email is valid', async () => {
