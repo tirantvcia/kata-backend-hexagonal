@@ -34,8 +34,6 @@ describe('The Controller', ()=>{
         const request: HttpRequest<UserRegistrationRequest> = createStubRequest(email, password)
         const response = createSpyResponse();
 
-
-        
         await userRegistrationController.register(request, response);
         expect(response.status).toHaveBeenCalledWith(400);
         expect(response.json).toHaveBeenCalledWith({message:'Email is required'});
@@ -48,8 +46,6 @@ describe('The Controller', ()=>{
         const request: HttpRequest<UserRegistrationRequest> = createStubRequest(email, password)
         const response = createSpyResponse();
 
-
-        
         await userRegistrationController.register(request, response);
         expect(response.status).toHaveBeenCalledWith(400);
         expect(response.json).toHaveBeenCalledWith({message:'Password is required'});
