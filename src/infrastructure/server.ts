@@ -1,14 +1,19 @@
-import express, {Express, Request, Response} from "express";
+import express, {Express, Request, Response, Router} from "express";
 import { UserRegistrationController } from "./UserRegistrationController";
 import { Routes } from "./Routes";
 
-export function createServer(userRegistrationController: UserRegistrationController): Express {
-    
 
+export function createRouter(userRegistrationController: UserRegistrationController) {
+    const router = Router();
+    router.get(Routes.status, (req:Request, res: Response)=> res.status(200).json({ status:'OK' }));
+    router.post(Routes.register, userRegistrationController.register);
+    return router;
+ 
+}
+export function createServer(router: Router): Express {
     const server = express();
     server.use(express.json());
-    server.get(Routes.status, (req:Request, res: Response)=> res.status(200).json({ status:'OK' }));
-    server.post(Routes.register, userRegistrationController.register);
+    server.use(router);
     return server;
 }
 

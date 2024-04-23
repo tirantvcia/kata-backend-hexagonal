@@ -1,7 +1,7 @@
 import { UserRegistrationService } from "./application/UserRegistrationService";
 import { InMemoryRepository } from "./core/repositories/UserRepository";
 import { UserRegistrationController } from "./infrastructure/UserRegistrationController";
-import { createServer } from "./infrastructure/server";
+import { createRouter, createServer } from "./infrastructure/server";
 
 
 
@@ -20,7 +20,7 @@ export class Factory {
 
     }
     static createServer() {
-        return createServer(this.createController());
+        return createServer(createRouter(this.createController()));
     }
 
 }
