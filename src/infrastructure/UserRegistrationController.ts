@@ -10,19 +10,27 @@ export class UserRegistrationController {
     async register(request: HttpRequest<UserRegistrationRequest>, response: HttpResponse<UserRegistrationResponse>) {
         try {
             this.ensureRegistrationDataIsProvided(request); 
-            const registrationResponse: UserRegistrationResponse = await this.userRegistrationService.register(request.body);
-            response.status(201).json(registrationResponse);
+            await this.hendleRegistration(request, response);
         } catch (error) {
-            if(error instanceof ValidationError) {
-                response.status(400).json({message: error.message});
-            } else {
-                response.status(500).json({message: 'Internal server error'});
-            }
+            this.handleErrors(error, response);
             
         }
         
     }
 
+
+    private async hendleRegistration(request: HttpRequest<UserRegistrationRequest>, response: HttpResponse<UserRegistrationResponse>) {
+        const registrationResponse: UserRegistrationResponse = await this.userRegistrationService.register(request.body);
+        response.status(201).json(registrationResponse);
+    }
+
+    private handleErrors(error: any, response: HttpResponse<UserRegistrationResponse>) {
+        if (error instanceof ValidationError) {
+            response.status(400).json({ message: error.message });
+        } else {
+            response.status(500).json({ message: 'Internal server error' });
+        }
+    }
 
     private ensureRegistrationDataIsProvided(request: HttpRequest<UserRegistrationRequest>) {
         if (!request.body.email) {
