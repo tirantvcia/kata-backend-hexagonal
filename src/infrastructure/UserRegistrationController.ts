@@ -7,7 +7,7 @@ import { HttpRequest, HttpResponse } from "./Http";
 export class UserRegistrationController {
 
     constructor(private userRegistrationService: UserRegistrationService) { }
-    async register(request: HttpRequest<UserRegistrationRequest>, response: HttpResponse<UserRegistrationResponse>) {
+    register = async (request: HttpRequest<UserRegistrationRequest>, response: HttpResponse<UserRegistrationResponse>) => {
         try {
             this.ensureRegistrationDataIsProvided(request); 
             await this.hendleRegistration(request, response);
