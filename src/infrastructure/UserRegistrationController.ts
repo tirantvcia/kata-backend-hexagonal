@@ -9,9 +9,7 @@ export class UserRegistrationController {
     constructor(private userRegistrationService: UserRegistrationService) { }
     async register(request: HttpRequest<UserRegistrationRequest>, response: HttpResponse<UserRegistrationResponse>) {
         try {
-            if (!request.body.email) {
-                throw new ValidationError("Email is required");
-            } 
+            this.ensureRegistrationDataIsProvided(request); 
             const registrationResponse: UserRegistrationResponse = await this.userRegistrationService.register(request.body);
             response.status(201).json(registrationResponse);
         } catch (error) {
@@ -25,4 +23,13 @@ export class UserRegistrationController {
         
     }
 
+
+    private ensureRegistrationDataIsProvided(request: HttpRequest<UserRegistrationRequest>) {
+        if (!request.body.email) {
+            throw new ValidationError("Email is required");
+        }
+        if (!request.body.password) {
+            throw new ValidationError("Password is required");
+        }
+    }
 }

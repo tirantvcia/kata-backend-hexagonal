@@ -41,6 +41,20 @@ describe('The Controller', ()=>{
         expect(response.json).toHaveBeenCalledWith({message:'Email is required'});
 
     })
+    it('rejects when the register password is not provided', async () => {
+       
+        const email = 'test@test.com';
+        const password = undefined;
+        const request: HttpRequest<UserRegistrationRequest> = createStubRequest(email, password)
+        const response = createSpyResponse();
+
+
+        
+        await userRegistrationController.register(request, response);
+        expect(response.status).toHaveBeenCalledWith(400);
+        expect(response.json).toHaveBeenCalledWith({message:'Password is required'});
+
+    })
  
 })
 
