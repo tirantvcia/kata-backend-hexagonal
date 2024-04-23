@@ -12,7 +12,7 @@ describe('The Controller', ()=>{
     beforeEach(()=>{
         userRegistrationController  = createController();
     }) 
-    it('ensure that register email is valid', async () => {
+    it('register new user when email and password are provided', async () => {
        
 
         const email = 'test@test.com';
@@ -27,6 +27,7 @@ describe('The Controller', ()=>{
         expect(response.json).toHaveBeenCalledWith({id: expect.any(String), email});
 
     })
+ 
 })
 
 function createController() {
