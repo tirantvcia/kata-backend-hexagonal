@@ -31,4 +31,49 @@ describe('The Server', ()=>{
 
         expect(response.body).toEqual({id: expect.any(String), email});
     });
+    it('reject user registration when exists user with same email', async ()=>{
+        const email = 'test1@test.com';
+        let response = await request(server).post(Routes.register)
+        .send({
+            email,
+            password: 'Test123_1'
+        });
+
+        expect(response.status).toEqual(201);
+        expect(response.headers['content-type']).toContain('application/json');
+
+        response = await request(server).post(Routes.register)
+        .send({
+            email,
+            password: 'Test123_1'
+        });
+
+        expect(response.status).toEqual(400);
+        expect(response.headers['content-type']).toContain('application/json');
+        expect(response.body).toEqual({message:'email has been used'});
+    });
+    it('reject user registration with invalid email format', async ()=>{
+        const email = 'test1@testcom';
+        let response = await request(server).post(Routes.register)
+        .send({
+            email,
+            password: 'Test123_1'
+        });
+
+        expect(response.status).toEqual(400);
+        expect(response.headers['content-type']).toContain('application/json');
+        expect(response.body).toEqual({message:'email with invalid format'});
+    });
+    it('reject user registration with invalid password', async ()=>{
+        const email = 'test2@test.com';
+        let response = await request(server).post(Routes.register)
+        .send({
+            email,
+            password: 'Test123'
+        });
+
+        expect(response.status).toEqual(400);
+        expect(response.headers['content-type']).toContain('application/json');
+        expect(response.body).toEqual({message:'password must have almost one underscore'});
+    });
 });
